@@ -22,6 +22,7 @@ def read_board(path):
     return N, D, Rs, Rp, cities
 
 def write_solution(path, towers):
+    """ Takes a single solution, given as a list of towers to place, and writes it out to a given file path. """
 
     with open(path, 'w') as file:
 
@@ -29,3 +30,10 @@ def write_solution(path, towers):
         
         for tower in towers:
             file.write(f'{tower[0]} {tower[1]}\n')
+
+
+def get_solutions(solver):
+
+    """ Runs a given algorithm on the class inputs, and writes using the correct output format. """
+
+    
