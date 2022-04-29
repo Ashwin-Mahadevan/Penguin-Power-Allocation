@@ -42,17 +42,17 @@ def get_solutions(solver):
     problem_paths = list()
 
     for filename in listdir('inputs/small'):
-        problem_paths.append(f'small/{filename}')
+        problem_paths.append(f'small/{filename[:-3]}')
 
     for filename in listdir('inputs/medium'):
-        problem_paths.append(f'medium/{filename}')
+        problem_paths.append(f'medium/{filename[:-3]}')
     
     for filename in listdir('inputs/large'):
-        problem_paths.append(f'large/{filename}')
+        problem_paths.append(f'large/{filename[:-3]}')
     
     for problem_path in problem_paths:
 
-        N, D, Rs, Rp, cities = read_board('inputs/' + problem_path)
+        N, D, Rs, Rp, cities = read_board('inputs/' + problem_path + '.in')
         towers = solver(D, Rs, Rp, cities)
 
-        write_solution('outputs/' + problem_path, towers)
+        write_solution('outputs/' + problem_path + '.out', towers)
