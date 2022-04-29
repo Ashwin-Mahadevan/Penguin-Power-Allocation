@@ -21,7 +21,7 @@ def create_covermap(D, Rs, cities):
 
 def solve_greedy(D, Rs, Rp, cities):
 
-    covers = create_covermap(D, Rs, cities)
+    covers = create_covermap(D, Rs, cities)  # Change this to full covermap?
 
     uncovered = set(cities)
 
