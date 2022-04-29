@@ -1,22 +1,24 @@
-from random import randint
+from random import randrange
 
-filename = "large.in"
+def generate(path, N, D, Rs, Rp):
 
-fileHandler = open(filename, "w")
+    with open(path, 'w') as file:
 
-fileHandler.write("198\n")
-fileHandler.write("100\n")
-fileHandler.write("3\n")
-fileHandler.write("14\n")
+        file.write(f'{N}\n')
+        file.write(f'{D}\n')
+        file.write(f'{Rs}\n')
+        file.write(f'{Rp}\n')
 
-cities = []
-while len(cities) < 198:
-    x = randint(0, 99)
-    y = randint(0, 99)
-    if not (x,y) in cities:
-        cities.append( (x, y) )
-        fileHandler.write(f"{x} {y}\n")
+        cities = set()
+        while len(cities) < N:
+            
+            city = (randrange(0, D), randrange(0, D))
 
+            if city not in cities:
+                cities.add(city)
+                file.write(f'{city[0]} {city[1]}\n')
 
-
-fileHandler.close()
+if __name__ == '__main__':
+    generate('inputs/small.in', 22, 30, 3, 8)
+    generate('inputs/medium.in', 53, 50, 3, 10)
+    generate('inputs/large.in', 198, 100, 3, 14)
