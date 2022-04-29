@@ -1,4 +1,7 @@
 
+from os import listdir
+
+
 def read_board(path):
 
     with open(path, 'r') as file:
@@ -36,4 +39,20 @@ def get_solutions(solver):
 
     """ Runs a given algorithm on the class inputs, and writes using the correct output format. """
 
+    problem_paths = list()
+
+    for filename in listdir('inputs/small'):
+        problem_paths.append(f'small/{filename}')
+
+    for filename in listdir('inputs/medium'):
+        problem_paths.append(f'medium/{filename}')
     
+    for filename in listdir('inputs/large'):
+        problem_paths.append(f'large/{filename}')
+    
+    for problem_path in problem_paths:
+
+        N, D, Rs, Rp, cities = read_board('inputs/' + problem_path)
+        towers = solver(D, Rs, Rp, cities)
+
+        write_solution('outputs/' + problem_path, towers)
