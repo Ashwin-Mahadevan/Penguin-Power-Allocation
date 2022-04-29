@@ -20,3 +20,12 @@ def read_board(path):
     assert len(cities) == N
 
     return N, D, Rs, Rp, cities
+
+def write_solution(path, towers):
+
+    with open(path, 'w') as file:
+
+        file.write(f'{len(towers)}\n')
+        
+        for tower in towers:
+            file.write(f'{tower[0]} {tower[1]}\n')
