@@ -1,5 +1,6 @@
 from math import exp
 from os import listdir
+from itertools import product
 
 
 def dist_sq(A, B):
@@ -8,13 +9,28 @@ def dist_sq(A, B):
     return (x1 - x0)**2 + (y1 - y0)**2
 
 
+def additional_penalty(towers, counts, new_tower, Rp):
+
+    nearby_new = 0
+    penalty = 0
+
+    for i in range(len(towers)):
+        if dist_sq(towers[i], new_tower) <= Rp**2:
+            penalty += exp(0.17 * (counts[i] + 1))
+            nearby_new += 1
+        else:
+            penalty += exp(0.17 * counts[i])
+
+    return penalty + exp(0.17 * nearby_new)
+
+
 def penalty(towers, Rp):
 
     counts = [0 for _ in towers]
 
     for i, j in product(range(len(towers)), range(len(towers))):
 
-        if i != j and dist_sq(towers[i], towers[j]) < Rp**2:
+        if i != j and dist_sq(towers[i], towers[j]) <= Rp**2:
             counts[i] += 1
             counts[j] += 1
 

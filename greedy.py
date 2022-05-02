@@ -1,5 +1,5 @@
 from itertools import product
-from utils import dist_sq, penalty
+from utils import additional_penalty, dist_sq, penalty
 
 
 def create_covermap(D, Rs, cities):
@@ -15,7 +15,7 @@ def create_covermap(D, Rs, cities):
 
             if dist_sq(point, city) < Rs**2:
                 covered.add(city)
-        
+
         if len(covered) > 0:
             covered_by[point] = covered
 
@@ -29,6 +29,7 @@ def solve_greedy(D, Rs, Rp, cities):
     uncovered_cities = set(cities)
 
     towers = list()
+    nearby_counts = list()
 
     def uncovered_count(tower):
         covered_by[tower].intersection_update(uncovered_cities)
@@ -38,11 +39,19 @@ def solve_greedy(D, Rs, Rp, cities):
 
         best_tower = max(
             covered_by,
-            key=lambda tower:
-            (uncovered_count(tower), -penalty(towers + [tower], Rp)),
+            key=lambda new_tower: (uncovered_count(new_tower), -additional_penalty(
+                towers, nearby_counts, new_tower, Rp)),
         )
 
+        nearby_best = 0
+
+        for i in range(len(towers)):
+            if dist_sq(towers[i], best_tower) <= Rp**2:
+                nearby_counts[i] += 1
+                nearby_best += 1
+
         towers.append(best_tower)
+        nearby_counts.append(nearby_best)
         uncovered_cities.difference_update(covered_by[best_tower])
 
     return towers
