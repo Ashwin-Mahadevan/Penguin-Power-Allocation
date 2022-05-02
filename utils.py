@@ -1,6 +1,19 @@
 
 from os import listdir
 
+def dist_sq(A, B):
+    x0, y0 = A
+    x1, y1 = B
+    return (x1-x0) ** 2 + (y1-y0) ** 2
+
+
+def penalty(towers, Rp):
+
+
+    ...
+
+
+
 
 def read_board(path):
 
