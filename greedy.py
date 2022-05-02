@@ -15,8 +15,9 @@ def create_covermap(D, Rs, cities):
 
             if dist_sq(point, city) < Rs**2:
                 covered.add(city)
-
-        covered_by[point] = covered
+        
+        if len(covered) > 0:
+            covered_by[point] = covered
 
     return covered_by
 
@@ -40,7 +41,7 @@ def solve_greedy(D, Rs, Rp, cities):
             key=lambda tower:
             (uncovered_count(tower), -penalty(towers + [tower], Rp)),
         )
-        
+
         towers.append(best_tower)
         uncovered_cities.difference_update(covered_by[best_tower])
 
