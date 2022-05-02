@@ -1,40 +1,44 @@
+from itertools import product
+from utils import dist_sq, penalty
+
+
 def create_covermap(D, Rs, cities):
     """ Precomputes the set of cities that would be covered by placing a tower at (x, y). Specifically, returns a dictionary mapping each potential tower location (x, y) to a set containing the coordinates of the cities that such a tower would cover. """
 
-    covers = dict()
+    covered_by = dict()
 
-    for x in range(D):
-        for y in range(D):
+    for point in product(range(D), range(D)):
 
-            covered = set()
+        covered = set()
 
-            for city in cities:
+        for city in cities:
 
-                X, Y = city
-                if (x - X)**2 + (y - Y)**2 <= Rs**2:
-                    covered.add(city)
+            if dist_sq(point, city) < Rs**2:
+                covered.add(city)
 
-            covers[(x, y)] = covered
+        covered_by[point] = covered
 
-    return covers
+    return covered_by
 
 
 def solve_greedy(D, Rs, Rp, cities):
 
-    covers = create_covermap(D, Rs, cities)  # Change this to full covermap?
+    covered_by = create_covermap(D, Rs, cities)
 
-    uncovered = set(cities)
+    uncovered_cities = set(cities)
 
     towers = list()
 
-    def uncovered_size(c):
-        covers[c].intersection_update(uncovered)
-        return len(covers[c])
+    def uncovered_count(tower):
+        covered_by[tower].intersection_update(uncovered_cities)
+        return len(covered_by[tower])
 
-    while uncovered:
+    while uncovered_cities:
 
-        best_tower = max(covers, key=uncovered_size)
+        best_tower = max(
+            covered_by, key=lambda tower:
+            (uncovered_count(tower), penalty(towers + [tower], Rp)))
         towers.append(best_tower)
-        uncovered.difference_update(covers[best_tower])
+        uncovered_cities.difference_update(covered_by[best_tower])
 
     return towers
