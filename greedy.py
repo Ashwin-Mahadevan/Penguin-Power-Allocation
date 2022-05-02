@@ -36,8 +36,11 @@ def solve_greedy(D, Rs, Rp, cities):
     while uncovered_cities:
 
         best_tower = max(
-            covered_by, key=lambda tower:
-            (uncovered_count(tower), penalty(towers + [tower], Rp)))
+            covered_by,
+            key=lambda tower:
+            (uncovered_count(tower), -penalty(towers + [tower], Rp)),
+        )
+        
         towers.append(best_tower)
         uncovered_cities.difference_update(covered_by[best_tower])
 
