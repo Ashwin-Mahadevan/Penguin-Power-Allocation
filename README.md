@@ -1,4 +1,6 @@
-# CS 170 Group Project
+# Penguin Power Allocation
+
+Places power stations on a grid so that the penguins all have power, and waste-energy is minimized.
 
 Usage: `python3 run.py`
 
